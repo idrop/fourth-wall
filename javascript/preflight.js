@@ -19,11 +19,8 @@ function runPreFlightChecks() {
         token             = queryVars.token,
         extraScopes       = (queryVars.extra_scopes || '').split(',').filter(
           function(scope) { return scope.length > 0 }
-        ),
-        ghUrl             = 'https://api.github.com/rate_limit',
-        authGhUrl         = ghUrl + '?access_token=' + token;
-
-  fetch(authGhUrl)
+        );
+    fetch('https://api.github.com/rate_limit', { headers: {'Authorization' : token } })
     .then(function (response) { return response.headers; })
     .then(function (headers)  { return headers.get('x-oauth-scopes')  })
     .then(function (scopes)   { return scopes.split(', '); })
